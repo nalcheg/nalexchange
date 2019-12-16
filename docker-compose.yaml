@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /
+
+  clickhouse:
+    image: yandex/clickhouse-server
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:8123:8123"
+      - "127.0.0.1:9009:9009"
+    volumes:
+    - ./docker/clickhouse/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+
+#  postgres:
+#    image: postgres
+#    ports:
+#      - "127.0.0.1:5432:5432"
+#    environment:
+#      POSTGRES_USER: "postgres"
+#      POSTGRES_PASSWORD: "postgres"
+#      POSTGRES_DB: "nalexchange"
+#      PGDATA: "/var/lib/postgresql/data/pgdata"
